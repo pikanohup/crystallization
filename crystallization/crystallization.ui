@@ -65,7 +65,10 @@
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="button_save">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>620</x>
@@ -133,7 +136,7 @@
    <zorder>label_dst</zorder>
    <zorder>label_src</zorder>
    <zorder>button_load</zorder>
-   <zorder>pushButton</zorder>
+   <zorder>button_save</zorder>
    <zorder>label</zorder>
    <zorder>density_bar</zorder>
    <zorder>button_apply</zorder>

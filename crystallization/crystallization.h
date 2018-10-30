@@ -17,7 +17,9 @@ public:
 private:
 	Ui::crystallizationClass ui;
 	Mat src;
+	Mat dst;
 
 private slots:
-	void loadAndShow();
+	void load();
+	void save();
 };

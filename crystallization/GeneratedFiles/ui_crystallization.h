@@ -30,7 +30,7 @@ public:
     QPushButton *button_load;
     QLabel *label_src;
     QLabel *label_dst;
-    QPushButton *pushButton;
+    QPushButton *button_save;
     QLabel *label;
     QSlider *density_bar;
     QPushButton *button_apply;
@@ -61,9 +61,10 @@ public:
         label_dst = new QLabel(centralWidget);
         label_dst->setObjectName(QStringLiteral("label_dst"));
         label_dst->setGeometry(QRect(460, 20, 411, 381));
-        pushButton = new QPushButton(centralWidget);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(620, 430, 75, 23));
+        button_save = new QPushButton(centralWidget);
+        button_save->setObjectName(QStringLiteral("button_save"));
+        button_save->setEnabled(false);
+        button_save->setGeometry(QRect(620, 430, 75, 23));
         label = new QLabel(centralWidget);
         label->setObjectName(QStringLiteral("label"));
         label->setGeometry(QRect(60, 490, 61, 21));
@@ -83,7 +84,7 @@ public:
         label_dst->raise();
         label_src->raise();
         button_load->raise();
-        pushButton->raise();
+        button_save->raise();
         label->raise();
         density_bar->raise();
         button_apply->raise();
@@ -110,7 +111,7 @@ public:
         button_load->setText(QApplication::translate("crystallizationClass", "Load", nullptr));
         label_src->setText(QString());
         label_dst->setText(QString());
-        pushButton->setText(QApplication::translate("crystallizationClass", "Save", nullptr));
+        button_save->setText(QApplication::translate("crystallizationClass", "Save", nullptr));
         label->setText(QApplication::translate("crystallizationClass", "Density:", nullptr));
         button_apply->setText(QApplication::translate("crystallizationClass", "Apply", nullptr));
     } // retranslateUi

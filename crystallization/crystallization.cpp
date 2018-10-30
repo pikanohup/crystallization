@@ -5,10 +5,11 @@ crystallization::crystallization(QWidget *parent)
 {
 	ui.setupUi(this);
 
-	connect(ui.button_load, SIGNAL(clicked(bool)), this, SLOT(loadAndShow()));
+	connect(ui.button_load, SIGNAL(clicked(bool)), this, SLOT(load()));
+	connect(ui.button_save, SIGNAL(clicked(bool)), this, SLOT(save()));
 }
 
-void displayImage(Mat img, QLabel *label)
+void display(Mat img, QLabel *label)
 {
 	QImage qimg;
 	switch (img.channels())
@@ -30,10 +31,21 @@ void displayImage(Mat img, QLabel *label)
 	label->show();
 }
 
-void crystallization::loadAndShow()
+void crystallization::load()
 {
+	// TODO
 	// QString filename = QFileDialog::getOpenFileName(this, "Open...", "", "*.jpg *.png *.bnp", 0);
 	// src = imread(std::string(filename.toLocal8Bit()));
 	src = imread("lena.jpg");
-	displayImage(src, ui.label_src);
+	dst = imread("lena.jpg");
+	display(src, ui.label_src);
+	display(dst, ui.label_dst);
+	ui.button_save->setEnabled(true);
+}
+
+void crystallization::save()
+{
+	QString filename = QFileDialog::getSaveFileName(this, "Save as...", "", "*.jpg *.png *.bnp", 0);
+	if (!filename.size()) return;
+	imwrite(filename.toStdString(), dst);
 }
