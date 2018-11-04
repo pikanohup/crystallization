@@ -34,7 +34,7 @@ void display(Mat img, QLabel *label)
 void crystallization::load()
 {
 	// TODO
-	// QString filename = QFileDialog::getOpenFileName(this, "Open...", "", "*.jpg *.png *.bnp", 0);
+	// QString filename = QFileDialog::getOpenFileName(this, "Open...", "", "*.jpg *.png *.bmp", 0);
 	// src = imread(std::string(filename.toLocal8Bit()));
 	src = imread("lena.jpg");
 	dst = imread("lena.jpg");
@@ -45,7 +45,7 @@ void crystallization::load()
 
 void crystallization::save()
 {
-	QString filename = QFileDialog::getSaveFileName(this, "Save as...", "", "*.jpg *.png *.bnp", 0);
+	QString filename = QFileDialog::getSaveFileName(this, "Save as...", "", "*.jpg *.png *.bmp", 0);
 	if (!filename.size()) return;
-	imwrite(filename.toStdString(), dst);
+	ui.label_dst->pixmap()->save(filename);
 }
