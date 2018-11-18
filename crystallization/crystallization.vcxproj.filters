@@ -36,6 +36,9 @@
     <ClCompile Include="crystallization.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="slic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="crystallization.h">
@@ -54,5 +57,10 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="crystallization.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="slic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

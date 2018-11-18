@@ -117,6 +117,7 @@
   <ItemGroup>
     <ClCompile Include="crystallization.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="slic.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="crystallization.h" />
@@ -129,6 +130,9 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="crystallization.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="slic.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

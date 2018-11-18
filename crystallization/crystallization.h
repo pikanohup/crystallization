@@ -3,8 +3,9 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QFileDialog>
 #include "ui_crystallization.h"
-
 #include <opencv.hpp>
+#include "slic.h"
+
 using namespace cv;
 
 class crystallization : public QMainWindow
@@ -22,4 +23,5 @@ private:
 private slots:
 	void load();
 	void save();
+	void apply();
 };

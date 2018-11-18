@@ -7,6 +7,7 @@ crystallization::crystallization(QWidget *parent)
 
 	connect(ui.button_load, SIGNAL(clicked(bool)), this, SLOT(load()));
 	connect(ui.button_save, SIGNAL(clicked(bool)), this, SLOT(save()));
+	connect(ui.button_apply, SIGNAL(clicked(bool)), this, SLOT(apply()));
 }
 
 void display(Mat img, QLabel *label)
@@ -48,4 +49,11 @@ void crystallization::save()
 	QString filename = QFileDialog::getSaveFileName(this, "Save as...", "", "*.jpg *.png *.bmp", 0);
 	if (!filename.size()) return;
 	ui.label_dst->pixmap()->save(filename);
+}
+
+void crystallization::apply()
+{
+	SLIC slic(src, 100);
+	dst = slic.generate_superpixels();
+	display(dst, ui.label_dst);
 }
