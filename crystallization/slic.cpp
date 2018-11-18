@@ -1,9 +1,8 @@
 #include "slic.h"
 
-SLIC::SLIC(Mat image, int k) : image(image), k(k), m(32.0), iters(10)
+SLIC::SLIC(Mat image, int k) : image(image), k(k), m(32.0), iters(5)
 {
-	n = image.rows * image.cols;
-	step = sqrt(n / k);
+	step = sqrt(image.rows * image.cols / k);
 }
 
 SLIC::~SLIC()
@@ -68,10 +67,9 @@ RGB SLIC::equalize(Cluster c)
 
 	int r = 0, g = 0, b = 0;
 	for (int i = 0; i < c.pixels.size(); i++) {
-		int id = c.pixels[i];
-		r += image.at<cv::Vec3b>(pixels[id].labxy.x, pixels[id].labxy.y)[2];
-		g += image.at<cv::Vec3b>(pixels[id].labxy.x, pixels[id].labxy.y)[1];
-		b += image.at<cv::Vec3b>(pixels[id].labxy.x, pixels[id].labxy.y)[0];
+		r += image.at<cv::Vec3b>(pixels[c.pixels[i]].labxy.x, pixels[c.pixels[i]].labxy.y)[2];
+		g += image.at<cv::Vec3b>(pixels[c.pixels[i]].labxy.x, pixels[c.pixels[i]].labxy.y)[1];
+		b += image.at<cv::Vec3b>(pixels[c.pixels[i]].labxy.x, pixels[c.pixels[i]].labxy.y)[0];
 	}
 	return RGB(r / c.pixels.size(), g / c.pixels.size(), b / c.pixels.size());
 }

@@ -53,8 +53,6 @@ class SLIC
 private:
 	Mat image;			// input
 	int k;				// number of cluster centers
-
-	int n;				// number of pixels
 	int step;			// grid step
 
 	double m;			// color similarity & spatial proximity

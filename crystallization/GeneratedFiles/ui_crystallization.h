@@ -17,6 +17,7 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSlider>
+#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
@@ -35,6 +36,7 @@ public:
     QSlider *density_bar;
     QPushButton *button_apply;
     QFrame *line;
+    QSpinBox *density_spinbox;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -70,16 +72,26 @@ public:
         label->setGeometry(QRect(60, 490, 61, 21));
         density_bar = new QSlider(centralWidget);
         density_bar->setObjectName(QStringLiteral("density_bar"));
-        density_bar->setGeometry(QRect(130, 490, 601, 22));
+        density_bar->setEnabled(false);
+        density_bar->setGeometry(QRect(130, 490, 541, 22));
+        density_bar->setMinimum(1);
         density_bar->setOrientation(Qt::Horizontal);
         button_apply = new QPushButton(centralWidget);
         button_apply->setObjectName(QStringLiteral("button_apply"));
+        button_apply->setEnabled(false);
         button_apply->setGeometry(QRect(750, 490, 81, 23));
         line = new QFrame(centralWidget);
         line->setObjectName(QStringLiteral("line"));
         line->setGeometry(QRect(430, 20, 20, 391));
         line->setFrameShape(QFrame::VLine);
         line->setFrameShadow(QFrame::Sunken);
+        density_spinbox = new QSpinBox(centralWidget);
+        density_spinbox->setObjectName(QStringLiteral("density_spinbox"));
+        density_spinbox->setEnabled(false);
+        density_spinbox->setGeometry(QRect(690, 490, 46, 22));
+        density_spinbox->setMinimum(1);
+        density_spinbox->setMaximum(300);
+        density_spinbox->setValue(1);
         crystallizationClass->setCentralWidget(centralWidget);
         label_dst->raise();
         label_src->raise();
@@ -89,6 +101,7 @@ public:
         density_bar->raise();
         button_apply->raise();
         line->raise();
+        density_spinbox->raise();
         menuBar = new QMenuBar(crystallizationClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
         menuBar->setGeometry(QRect(0, 0, 891, 26));
