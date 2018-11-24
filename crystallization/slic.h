@@ -51,12 +51,12 @@ struct Cluster
 class SLIC
 {
 private:
-	Mat image;			// input
-	int k;				// number of cluster centers
-	int step;			// grid step
+	Mat image;				// input
+	const int k;			// number of cluster centers
+	const int step;			// grid step
 
-	double m;			// color similarity & spatial proximity
-	int iters;			// umber of iterations run by the clustering
+	const double m;			// color similarity & spatial proximity
+	const int iters;		// number of iterations run by the clustering
 
 	vector<Pixel> pixels;
 	vector<Cluster> clusters;
@@ -85,6 +85,8 @@ public:
 	void assign();
 	// compute new cluster centers
 	void update();
-	// Generate an over-segmentation for an image
+	// create connectivity of the superpixels
+	void enforce_connectivity();
+	// generate an over-segmentation for an image
 	Mat generate_superpixels();
 };

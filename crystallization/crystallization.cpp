@@ -8,8 +8,8 @@ crystallization::crystallization(QWidget *parent)
 	connect(ui.button_load, SIGNAL(clicked(bool)), this, SLOT(load()));
 	connect(ui.button_save, SIGNAL(clicked(bool)), this, SLOT(save()));
 	connect(ui.button_apply, SIGNAL(clicked(bool)), this, SLOT(apply()));
-	connect(ui.density_spinbox, SIGNAL(valueChanged(int)), ui.density_bar, SLOT(setValue(int)));
-	connect(ui.density_bar, SIGNAL(valueChanged(int)), ui.density_spinbox, SLOT(setValue(int)));
+	connect(ui.spinbox_density, SIGNAL(valueChanged(int)), ui.bar_density, SLOT(setValue(int)));
+	connect(ui.bar_density, SIGNAL(valueChanged(int)), ui.spinbox_density, SLOT(setValue(int)));
 }
 
 void display(Mat img, QLabel *label)
@@ -37,22 +37,23 @@ void display(Mat img, QLabel *label)
 
 void crystallization::load()
 {
-	// TODO
-	// QString filename = QFileDialog::getOpenFileName(this, "Open...", "", "*.jpg *.png *.bmp", 0);
-	// src = imread(std::string(filename.toLocal8Bit()));
-	src = imread("lena.jpg");
+	QString filename = QFileDialog::getOpenFileName(this, "Open...", "", "*.jpg *.png *.bmp", 0);
+	if (!filename.size()) return;
+
+	src = imread(std::string(filename.toLocal8Bit()));
 	dst = src;
 	display(src, ui.label_src);
 	display(dst, ui.label_dst);
 
-	int nMax = src.rows * src.cols / 100;
-	if (nMax > 10000) nMax = 10000;
-	ui.density_bar->setMaximum(nMax);
-	ui.density_spinbox->setMaximum(nMax);
+	int nMax = src.rows * src.cols / 50;
+	if (nMax > 2000) nMax = 2000;
+	ui.bar_density->setMaximum(nMax);
+	ui.spinbox_density->setMaximum(nMax);
+	ui.bar_density->setValue(nMax / 2);
 
 	ui.button_save->setEnabled(true);
-	ui.density_bar->setEnabled(true);
-	ui.density_spinbox->setEnabled(true);
+	ui.bar_density->setEnabled(true);
+	ui.spinbox_density->setEnabled(true);
 	ui.button_apply->setEnabled(true);
 }
 
@@ -65,7 +66,11 @@ void crystallization::save()
 
 void crystallization::apply()
 {
-	SLIC slic(src, ui.density_spinbox->value());
+	ui.bar_progress->show();
+
+	SLIC slic(src, ui.spinbox_density->value());
 	dst = slic.generate_superpixels();
 	display(dst, ui.label_dst);
+
+	ui.bar_progress->hide();
 }

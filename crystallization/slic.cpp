@@ -1,13 +1,11 @@
 #include "slic.h"
 
-SLIC::SLIC(Mat image, int k) : image(image), k(k), m(32.0), iters(5)
+SLIC::SLIC(Mat image, int k) : image(image), k(k), m(10.0), iters(10), step(sqrt(image.rows * image.cols / k))
 {
-	step = sqrt(image.rows * image.cols / k);
 }
 
 SLIC::~SLIC()
 {
-	
 }
 
 double SLIC::gamma(double x) {
@@ -175,6 +173,71 @@ void SLIC::update()
 	}
 }
 
+void SLIC::enforce_connectivity()
+{
+	int label = 0, adjlabel = 0;
+	const int lims = (image.rows * image.cols) / clusters.size();
+	const int dx4[4] = { -1, 0, 1, 0 };
+	const int dy4[4] = { 0, -1, 0, 1 };
+
+	vector<Pixel> new_pixels;
+	for (int i = 0; i < image.rows; i++) {
+		for (int j = 0; j < image.cols; j++) {
+			int id = j + image.cols * i;
+			LAB lab = rgb2lab(RGB(image.at<cv::Vec3b>(i, j)[2], image.at<cv::Vec3b>(i, j)[1], image.at<cv::Vec3b>(i, j)[0]));
+			new_pixels.push_back(Pixel(id, LABXY(lab, i, j)));
+		}
+	}
+
+	for (int i = 0; i < image.rows; i++) {
+		for (int j = 0; j < image.cols; j++) {
+			int id = j + image.cols * i;
+			if (new_pixels[id].label < 0) {
+				vector<int>elements;
+				elements.push_back(id);
+
+				for (int k = 0; k < 4; k++) {
+					int x = new_pixels[elements[0]].labxy.x + dx4[k], y = new_pixels[elements[0]].labxy.y + dy4[k];
+
+					if (x >= 0 && x < image.rows && y >= 0 && y < image.cols) {
+						if (new_pixels[y + image.cols * x].label >= 0) {
+							adjlabel = new_pixels[y + image.cols * x].label;
+						}
+					}
+				}
+
+				int count = 1;
+				for (int c = 0; c < count; c++) {
+					for (int k = 0; k < 4; k++) {
+						int x = pixels[elements[c]].labxy.x + dx4[k], y = pixels[elements[c]].labxy.y + dy4[k];
+
+						if (x >= 0 && x < image.rows && y >= 0 && y < image.cols) {
+							if (new_pixels[y + image.cols * x].label < 0 && pixels[y + image.cols * x].label == pixels[id].label) {
+								elements.push_back(y + image.cols * x);
+								new_pixels[y + image.cols * x].label = label;
+								count += 1;
+							}
+						}
+					}
+				}
+
+				if (count <= lims >> 2) {
+					for (int c = 0; c < count; c++) {
+						int x = pixels[elements[c]].labxy.x, y = pixels[elements[c]].labxy.y;
+						new_pixels[y + image.cols * x].label = adjlabel;
+					}
+					label -= 1;
+				}
+				label += 1;
+			}			
+		}
+	}
+
+	pixels = new_pixels;
+	update();
+}
+
+
 Mat SLIC::generate_superpixels()
 {
 	initialize();
@@ -183,6 +246,8 @@ Mat SLIC::generate_superpixels()
 		assign();
 		update();
 	}
+
+	// enforce_connectivity();
 
 	Mat output(image.rows, image.cols, image.type());
 	for (int i = 0; i < clusters.size(); i++) {

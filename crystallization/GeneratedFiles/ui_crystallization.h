@@ -15,6 +15,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QProgressBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSlider>
 #include <QtWidgets/QSpinBox>
@@ -33,10 +34,11 @@ public:
     QLabel *label_dst;
     QPushButton *button_save;
     QLabel *label;
-    QSlider *density_bar;
+    QSlider *bar_density;
     QPushButton *button_apply;
     QFrame *line;
-    QSpinBox *density_spinbox;
+    QSpinBox *spinbox_density;
+    QProgressBar *bar_progress;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -70,12 +72,12 @@ public:
         label = new QLabel(centralWidget);
         label->setObjectName(QStringLiteral("label"));
         label->setGeometry(QRect(60, 490, 61, 21));
-        density_bar = new QSlider(centralWidget);
-        density_bar->setObjectName(QStringLiteral("density_bar"));
-        density_bar->setEnabled(false);
-        density_bar->setGeometry(QRect(130, 490, 541, 22));
-        density_bar->setMinimum(1);
-        density_bar->setOrientation(Qt::Horizontal);
+        bar_density = new QSlider(centralWidget);
+        bar_density->setObjectName(QStringLiteral("bar_density"));
+        bar_density->setEnabled(false);
+        bar_density->setGeometry(QRect(130, 490, 541, 22));
+        bar_density->setMinimum(1);
+        bar_density->setOrientation(Qt::Horizontal);
         button_apply = new QPushButton(centralWidget);
         button_apply->setObjectName(QStringLiteral("button_apply"));
         button_apply->setEnabled(false);
@@ -85,23 +87,32 @@ public:
         line->setGeometry(QRect(430, 20, 20, 391));
         line->setFrameShape(QFrame::VLine);
         line->setFrameShadow(QFrame::Sunken);
-        density_spinbox = new QSpinBox(centralWidget);
-        density_spinbox->setObjectName(QStringLiteral("density_spinbox"));
-        density_spinbox->setEnabled(false);
-        density_spinbox->setGeometry(QRect(690, 490, 46, 22));
-        density_spinbox->setMinimum(1);
-        density_spinbox->setMaximum(300);
-        density_spinbox->setValue(1);
+        spinbox_density = new QSpinBox(centralWidget);
+        spinbox_density->setObjectName(QStringLiteral("spinbox_density"));
+        spinbox_density->setEnabled(false);
+        spinbox_density->setGeometry(QRect(690, 490, 46, 22));
+        spinbox_density->setMinimum(1);
+        spinbox_density->setMaximum(300);
+        spinbox_density->setValue(1);
+        bar_progress = new QProgressBar(centralWidget);
+        bar_progress->setObjectName(QStringLiteral("bar_progress"));
+        bar_progress->setEnabled(true);
+        bar_progress->setGeometry(QRect(380, 210, 118, 23));
+        bar_progress->setMaximum(0);
+        bar_progress->setValue(-1);
+        bar_progress->setTextVisible(false);
+		bar_progress->hide();
         crystallizationClass->setCentralWidget(centralWidget);
         label_dst->raise();
         label_src->raise();
         button_load->raise();
         button_save->raise();
         label->raise();
-        density_bar->raise();
+        bar_density->raise();
         button_apply->raise();
         line->raise();
-        density_spinbox->raise();
+        spinbox_density->raise();
+        bar_progress->raise();
         menuBar = new QMenuBar(crystallizationClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
         menuBar->setGeometry(QRect(0, 0, 891, 26));
